@@ -2,20 +2,26 @@ package com.example.report.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Value;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 @Data
-@Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@Document(collection = "reports")
 public class Report {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    @Id
+    private String id;
     String author;
     String message;
+
+    public Report() {
+    }
+
+    public Report(String author, String message) {
+        this.author = author;
+        this.message = message;
+    }
 }

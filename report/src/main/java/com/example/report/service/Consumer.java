@@ -1,11 +1,9 @@
 package com.example.report.service;
 
 import com.example.report.model.Report;
-import com.example.report.model.ReportDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -15,15 +13,12 @@ import org.springframework.stereotype.Component;
 public class Consumer {
 
     private static final String reportTopic = "${topic.name}";
-
     private final ObjectMapper objectMapper;
-    private final ModelMapper modelMapper;
     private final ReportService reportService;
 
     @Autowired
-    public Consumer(ObjectMapper objectMapper, ModelMapper modelMapper, ReportService reportService) {
+    public Consumer(ObjectMapper objectMapper, ReportService reportService) {
         this.objectMapper = objectMapper;
-        this.modelMapper = modelMapper;
         this.reportService = reportService;
     }
 
@@ -31,10 +26,7 @@ public class Consumer {
     public void consumeMessage(String message) throws JsonProcessingException {
         log.info("message consumed {}", message);
 
-        ReportDTO reportDTO = objectMapper.readValue(message, ReportDTO.class);
-        Report report = modelMapper.map(reportDTO, Report.class);
-
+        Report report = objectMapper.readValue(message, Report.class);
         reportService.persistReport(report);
     }
-
 }
