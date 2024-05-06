@@ -10,14 +10,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReportService {
 
-    private final Producer producer;
+    private final ProducerKafka producerKafka;
+    private final ProducerSQS producerSQS;
 
     @Autowired
-    public ReportService(Producer producer) {
-        this.producer = producer;
+    public ReportService(ProducerKafka producer, ProducerSQS producerSQS) {
+        this.producerKafka = producer;
+        this.producerSQS = producerSQS;
     }
 
     public String createReport(Report report) throws JsonProcessingException {
-        return producer.sendReport(report);
+        return producerKafka.sendReport(report);
+    }
+
+    public String createReportSQS(Report report) throws JsonProcessingException {
+        return producerSQS.sendReport(report);
     }
 }

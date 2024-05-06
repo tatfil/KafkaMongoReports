@@ -26,9 +26,15 @@ public class ReportController {
     }
 
 
-    @PostMapping
+    @PostMapping("kafka")
     public String createReport(@RequestBody Report report) throws JsonProcessingException {
         log.info("create report request received");
         return reportService.createReport(report);
+    }
+
+    @PostMapping("sqs")
+    public String createReportSQS(@RequestBody Report report) throws JsonProcessingException {
+        log.info("create report request received");
+        return reportService.createReportSQS(report);
     }
 }
