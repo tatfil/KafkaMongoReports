@@ -1,3 +1,4 @@
+**This application has two versions: 0n-premise in Docker containers and AWS cloud. For AWS version of this application, please see [aws branch](https://github.com/tatfil/KafkaMongoReports/tree/aws)**
 
 # Report Processing System
 
